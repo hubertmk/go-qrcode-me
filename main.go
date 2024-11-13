@@ -11,7 +11,16 @@ import (
 
 func main() {
   http.HandleFunc("/", formHandler)
-  http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("static"))))
+  http.HandleFunc("/static/", func(w http.ResponseWriter, r *http.Request) {
+    file := r.URL.Path[len("/static/"):]
+    if file == "" || file == "/" {
+        http.Error(w, "Forbidden", http.StatusForbidden)
+        return
+    }
+    http.ServeFile(w, r, "static/"+file)
+})
+
+
 
   fmt.Println("Starting server on :8080...")
   if err := http.ListenAndServe(":8080", nil); err != nil {
