@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>vCard ❣️ QR Code</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background-color: #f5f5f5;
+        }
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            max-width: 400px;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+            background-color: #f9f9f9;
+        }
+        h1 {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        input {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        input::placeholder {
+            color: #666;
+            opacity: 1;
+        }
+        button {
+            padding: 12px 20px;
+            font-size: 16px;
+            border: none;
+            border-radius: 4px;
+            background-color: #4CAF50;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .qr-code-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            max-width: 400px;
+            padding: 20px;
+            margin-top: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+            background-color: #f9f9f9;
+            text-align: center;
+        }
+        .qr-code-section img {
+            margin-top: 10px;
+            padding: 10px;
+        }
+    </style>
+    <script>
+        const domain = ".com";
+
+        function updateEmail() {
+            const firstName = document.getElementById("firstName").value.trim().toLowerCase();
+            const surName = document.getElementById("surName").value.trim().toLowerCase();
+            const company = document.getElementById("company").value.trim().toLowerCase();
+            const emailField = document.getElementById("email");
+
+            if (firstName || surName) {
+                emailField.value = `${firstName}.${surName}@${company}${domain}`;
+            } else {
+                emailField.value = "";
+            }
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <form action="/" method="post">
+            <h1>vCard ❣️ QR Code</h1>
+
+            <input type="text" id="firstName" name="firstName" placeholder="First Name" oninput="updateEmail()" required>
+            <input type="text" id="surName" name="surName" placeholder="Last Name" oninput="updateEmail()" required>
+            <input type="text" id="company" name="company" placeholder="Company" oninput="updateEmail()" required>
+            <input type="text" id="title" name="title" placeholder="Title">
+            <input type="email" id="email" name="email" placeholder="Email"  required>
+            <input type="tel" id="phone" name="phone" placeholder="Phone" >
+
+            <button type="submit">Generate QR Code</button>
+        </form>
+
+        <div class="qr-code-section">
+            {{if .QRCode}}
+            <h2>Your QR Code:</h2>
+            <img src="{{.QRCode}}" alt="QR Code">
+            {{end}}
+        </div>
+    </div>
+</body>
+</html>
+
